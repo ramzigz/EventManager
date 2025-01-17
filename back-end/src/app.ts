@@ -4,11 +4,13 @@ import swaggerUi from "swagger-ui-express";
 import appRoutes from "./routes/index";
 import swaggerSpec from "./swagger/swaggerConfig";
 import rateLimit from "express-rate-limit";
-
+import cors from "cors";
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+app.use(cors());
 
 app.use(express.json());
 
