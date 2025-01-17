@@ -19,7 +19,11 @@ export const createEvent = async (req: Request, res: Response) => {
 export const getAllEvents = async (req: Request, res: Response) => {
   try {
     const { limit, skip, select } = req.query;
-    const events = await fetchAllEvents(Number(limit), Number(skip), select as string);
+    const events = await fetchAllEvents(
+      limit ? Number(limit) : undefined,
+      skip ? Number(skip) : undefined,
+      select as string
+    );
     res.status(200).json(events);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
