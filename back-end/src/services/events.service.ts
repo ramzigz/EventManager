@@ -23,7 +23,6 @@ export const createNewEvent = async (event: any) => {
   events.push(newEvent);
   await redis.set(allEventsKey, JSON.stringify(events));
 
-  console.log("Event created and stored successfully");
   return newEvent;
 };
 
@@ -43,7 +42,6 @@ export const fetchAllEvents = async (
   // Retrieve the list of all events from Redis
   const cachedData = await redis.get(allEventsKey);
   if (!cachedData) {
-    console.log("No events found in Redis");
     return [];
   }
 
@@ -75,7 +73,6 @@ export const fetchEventById = async (id: string) => {
   // Check Redis cache first
   const cachedData = await redis.get(cacheKey);
   if (cachedData) {
-    console.log("Serving from cache");
     return JSON.parse(cachedData);
   }
 
@@ -136,6 +133,4 @@ export const deleteEventById = async (id: string) => {
     const events = JSON.parse(existingEvents).filter((e: any) => e.id !== id);
     await redis.set(allEventsKey, JSON.stringify(events));
   }
-
-  console.log("Event deleted successfully");
 };
