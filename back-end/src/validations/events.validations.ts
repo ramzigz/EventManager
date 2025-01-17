@@ -3,6 +3,7 @@ import { body, param } from 'express-validator';
 export const validateCreateEvent = [
   body('title').isString().notEmpty().withMessage('Title is required'),
   body('date').isISO8601().withMessage('Date must be a valid ISO 8601 string'),
+  body('id').not().exists().withMessage('ID should not be provided'),
 ];
 
 export const validateEventId = [
