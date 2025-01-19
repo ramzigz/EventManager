@@ -1,5 +1,5 @@
 // services/eventsService.ts
-
+import axios from "axios";
 import axiosInstance from "./axiosInstance";
 
 // Define the type for the event object
@@ -12,14 +12,25 @@ interface Event {
 }
 
 // Fetch all events
-export const fetchEvents = async ({ limit, skip }: { limit: number; skip: number }): Promise<Event[]> => {
+export const fetchEvents = async ({
+  limit,
+  skip,
+}: {
+  limit: number;
+  skip: number;
+}): Promise<Event[]> => {
   try {
     const response = await axiosInstance.get(
       `/events?limit=${limit}&skip=${skip}`
     ); // Use your API endpoint here
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || "Failed to fetch events");
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || "Failed to fetch events"
+      );
+    }
+    throw new Error("Unknown error occurred");
   }
 };
 
@@ -29,7 +40,10 @@ export const fetchEventById = async (id: string): Promise<Event> => {
     const response = await axiosInstance.get(`/events/${id}`);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || "Failed to fetch event");
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || "Failed to fetch event");
+    }
+    throw new Error("Unknown error occurred");
   }
 };
 
@@ -41,7 +55,10 @@ export const createEvent = async (
     const response = await axiosInstance.post("/events", eventData);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || "Failed to create event");
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || "Failed to create event");
+    }
+    throw new Error("Unknown error occurred");
   }
 };
 
@@ -54,7 +71,10 @@ export const updateEvent = async (
     const response = await axiosInstance.put(`/events/${id}`, eventData);
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || "Failed to update event");
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || "Failed to update event");
+    }
+    throw new Error("Unknown error occurred");
   }
 };
 
@@ -63,6 +83,9 @@ export const deleteEvent = async (id: string): Promise<void> => {
   try {
     await axiosInstance.delete(`/events/${id}`);
   } catch (error) {
-    throw new Error(error.response?.data?.message || "Failed to delete event");
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || "Failed to delete event");
+    }
+    throw new Error("Unknown error occurred");
   }
 };
