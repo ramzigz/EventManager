@@ -315,7 +315,7 @@ export default function Events() {
             setIsAlertOpen(false);
             setEventIdToDelete(null);
           }}
-          setIsOpen={() => setIsAlertOpen(true)}
+          onClose={() => setIsAlertOpen(true)}
         />
         <EventForm
           event={rowSelection}

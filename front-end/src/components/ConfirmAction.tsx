@@ -12,18 +12,12 @@ import {
 } from "@/components/ui/alert-dialog";
 
 interface ConfirmActionProps {
-  message: string;
-  onConfirm: () => void;
-  onCancel: () => void;
-}
-
-interface ConfirmActionProps {
     title: string;
     message: string;
     onConfirm: () => void;
     onCancel: () => void;
     isOpen: boolean;
-    setIsOpen: (isOpen: boolean) => void;
+    onClose: (isOpen: boolean) => void;
 }
 
 const ConfirmAction: React.FC<ConfirmActionProps> = ({
@@ -32,20 +26,20 @@ const ConfirmAction: React.FC<ConfirmActionProps> = ({
     onConfirm,
     onCancel,
     isOpen,
-    setIsOpen,
+    onClose,
 }) => {
     return (
-        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+        <AlertDialog open={isOpen} onOpenChange={onClose}>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>{title}</AlertDialogTitle>
                     <AlertDialogDescription>{message}</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel onClick={() => onCancel()}>
+                    <AlertDialogCancel onClick={onCancel}>
                         Cancel
                     </AlertDialogCancel>
-                    <AlertDialogAction onClick={() => onConfirm()}>
+                    <AlertDialogAction onClick={onConfirm}>
                         Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>
